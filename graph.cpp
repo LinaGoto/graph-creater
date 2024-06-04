@@ -27,6 +27,7 @@ public:
   int  distance(int idx, int idy);
 };
 
+//graph size
 int graph::size(void) {
   return edge.size();
 }
@@ -39,14 +40,17 @@ int graph::edgesize(int idx) {
   return edge[idx].size();
 }
 
+//place in graph
 int graph::destination(int idx, int idy) {
   return edge[idx][idy].destination;
 }
 
+//distance between the vertex
 int graph::distance(int idx, int idy) {
   return edge[idx][idy].distance;
 }
 
+//adding edge
 void graph::add_edge(int x, int y, int distance) {
   /* if size isn't enough, expand it */
   if (edge.size() < x + 1) edge.resize(x + 1);
@@ -55,10 +59,12 @@ void graph::add_edge(int x, int y, int distance) {
   edge[x].push_back({y, distance});
 }
 
+//adding vertex
 void graph::add_vertex(int x) {
   add_edge(x, x, 0);
 }
 
+//removing edge
 void graph::remove_edge(int x, int y) {
   int idx, idy;
 
@@ -78,6 +84,7 @@ void graph::remove_edge(int x, int y) {
   }
 }
 
+//remove vertex
 void graph::remove_vertex(int x) {
   int idx, idy;
   
@@ -95,6 +102,7 @@ void graph::remove_vertex(int x) {
   }
 }
 
+//print
 void graph::show(void) {
   int idx, idy, x, y;
   int dist[size()][size()];
@@ -252,7 +260,8 @@ static void dijksra(graph graph, int start, int goal) {
 
 int main(void) {
   graph graph;
-  
+
+  #if 0
   graph.add_edge(0, 1,  4);
   graph.add_edge(0, 6,  7);
   graph.add_edge(1, 0,  4);
@@ -288,7 +297,7 @@ int main(void) {
   graph.show();
 
   //  graph.remove_edge(4, 3);
-  //  graph.remove_vertex(7);
+    graph.remove_vertex(7);
 
   graph.show();
 
@@ -297,16 +306,110 @@ int main(void) {
   dijksra(graph, 5, 1);
 
   dijksra(graph, 9, 3);
+#endif
 
-  /*
-  cout << "1. add vertex" << endl;
-  cout << "2. add edge" << endl;
-  cout << "3. remove vertex" << endl;
-  cout << "4. remove edge" << endl;
-  cout << "5. find shortest path" << endl;
-  */
+  int x = 0;
   
+  while (x == 0){
+    cout << "Enter number:" << endl;
+    cout << "   1. add vertex" << endl;
+    cout << "   2. add edge" << endl;
+    cout << "   3. remove vertex" << endl;
+    cout << "   4. remove edge" << endl;
+    cout << "   5. find shortest path" << endl;
+    
+    int input = 0;
+    cin >> input;
+    cin.get();
+    
+    //adding vertex
+    if (input == 1){
+      
+      int numver = 0;
+      cout << "input vertex number: ";
+      cin >> numver;
+      cin.get();
+      
+      graph.add_vertex(numver);
 
+      graph.show();
+    }
+	
+    //adding edge
+    if (input == 2){
+
+      int startver = 0;
+      cout << "input starting vertex: ";
+      cin >> startver;
+      cin.get();
+      
+      int endver = 0;
+      cout << "input ending vertex: ";
+      cin >> endver;
+      cin.get();
+      
+      int numedge = 0;
+      cout << "input edge length: ";
+      cin >> numedge;
+      cin.get();
+      
+      graph.add_edge(startver, endver, numedge);
+
+      graph.show();
+    }
+    
+    //removing vertex
+    if (input == 3){
+
+      int numver = 0;
+      cout << "input vertex number: ";
+      cin >> numver;
+      cin.get();
+      
+      graph.remove_vertex(numver);
+
+      graph.show();
+    }
+
+    
+    //removing edge
+    if (input == 4){
+
+      int startver = 0;
+      cout << "input starting vertex of the edge: ";
+      cin >> startver;
+      cin.get();
+      
+      int endver = 0;
+      cout << "input ending vertex of the edge: ";
+      cin >> endver;
+      cin.get();
+
+      graph.remove_edge(startver, endver);
+
+      graph.show();
+    }
+
+    
+    //finding shortest path
+    if (input ==5){
+
+      int startver = 0;
+      cout << "input starting vertex: ";
+      cin >> startver;
+      cin.get();
+
+      int endver = 0;
+      cout << "input ending vertex: ";
+      cin >> endver;
+      cin.get();
+
+      
+      dijksra(graph, startver, endver);
+    }
+
+    
+  }
   
   
   return 0;
